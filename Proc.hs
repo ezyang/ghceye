@@ -2,15 +2,22 @@ import System.Process
 import System.IO
 import System.Exit
 main = do
-    (readEnd, writeEnd) <- createPipe
+    hSetBuffering stderr NoBuffering
+    hSetBuffering stdout NoBuffering
+    (readIn, writeIn) <- createPipe
+    (readOut, writeOut) <- createPipe
     (_,_,_,proch) <- createProcess (proc "ghci" []) {
-            std_in = UseHandle readEnd,
+            std_in = UseHandle readIn,
+            std_out = UseHandle writeOut,
+            std_err = UseHandle writeOut,
             close_fds = True,
             create_group = True
         }
-    hPutStrLn writeEnd ":set prompt \"\""
-    hPutStrLn writeEnd "print 42"
-    hPutStrLn writeEnd ":quit"
-    hClose writeEnd
+    hPutStrLn writeIn ":set prompt \"\""
+    hPutStrLn writeIn "print 42"
+    hPutStrLn writeIn ":quit"
+    hClose writeIn
     exit <- waitForProcess proch
+    hPutStrLn stderr =<< hGetContents readOut
+    hClose readOut
     exitWith exit
