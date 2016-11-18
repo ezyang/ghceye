@@ -23,17 +23,9 @@ main = do
     putStrLn "forking thread to interactively dump Python output"
     baton <- newEmptyMVar
     _ <- forkIO $ do
-        let loop = do
-              bs <- S.hGetSome readOut 4096
-              if S.null bs
-                  then do
-                      putStrLn "closing readOut"
-                      hClose readOut
-                      putMVar baton ()
-                  else do
-                      S.hPutStr stderr bs
-                      loop
-        loop
+        hPutStr stderr =<< hGetContents readOut
+        hClose readOut
+        putMVar baton ()
 
     putStrLn "closing writeOut"
     hClose writeOut
