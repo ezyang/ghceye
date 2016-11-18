@@ -6,7 +6,7 @@ main = do
     hSetBuffering stdout NoBuffering
     (readIn, writeIn) <- createPipe
     (readOut, writeOut) <- createPipe
-    (_,_,_,proch) <- createProcess (proc "python" []) {
+    (_,_,_,proch) <- createProcess (proc "python" ["-i"]) {
             std_in = UseHandle readIn,
             std_out = UseHandle writeOut,
             std_err = UseHandle writeOut,
