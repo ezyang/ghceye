@@ -1,6 +1,2 @@
-install:
-  - choco install -y ghc --version 8.0.1 > NUL
-  - refreshenv
 build_script:
-  - ghc --make Proc.hs
-  - Proc
+  - python proc.py
