@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+import Control.Concurrent
 import System.Process
 import System.IO
 import System.Exit
@@ -18,6 +19,21 @@ main = do
             std_err = UseHandle writeOut,
             close_fds = True
         }
+
+    putStrLn "forking thread to interactively dump Python output"
+    baton <- newEmptyMVar
+    _ <- forkIO $ do
+        let loop = do
+              bs <- S.hGetSome readOut 4096
+              if S.null bs
+                  then do
+                      putStrLn "closing readOut"
+                      hClose readOut
+                      putMVar baton ()
+                  else do
+                      S.hPutStr stderr bs
+                      loop
+        loop
 
     putStrLn "closing writeOut"
     hClose writeOut
@@ -39,16 +55,8 @@ main = do
         Nothing -> error "Waiting for process timed out"
         Just exit -> return exit
 
-    putStrLn "calling hGetContents"
-    mres <- timeout10s $ S.hGetContents readOut
+    putStrLn "waiting for reader thread to exit"
+    readMVar baton
 
-    putStrLn "closing readOut"
-    hClose readOut
-
-    case mres of
-        Nothing -> error "Did not complete"
-        Just bs -> do
-            putStrLn "sending output to stderr"
-            S.hPutStrLn stderr bs
-            putStrLn "exiting"
-            exitWith exit
+    putStrLn "exiting"
+    exitWith exit
