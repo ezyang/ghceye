@@ -10,7 +10,6 @@ main = do
             std_in = UseHandle readIn,
             std_out = UseHandle writeOut,
             std_err = UseHandle writeOut,
-            close_fds = True,
             create_group = True
         }
     hPutStrLn writeIn ":set prompt \"\""
