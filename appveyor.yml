@@ -1,5 +1,9 @@
 install:
   - choco install -y ghc --version 8.0.1 > NUL
   - refreshenv
+build_script:
   - ghc --make Proc.hs
   - Proc
+cache:
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
