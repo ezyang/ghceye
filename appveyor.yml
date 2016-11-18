@@ -4,6 +4,3 @@ install:
 build_script:
   - ghc --make Proc.hs
   - Proc
-cache:
-  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
