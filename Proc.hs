@@ -41,6 +41,15 @@ main = do
     putStrLn "sending print(42)"
     S.hPutStrLn writeIn "print(42)"
 
+    putStrLn "sending print(42)"
+    S.hPutStrLn writeIn "print(42)"
+
+    putStrLn "sending print(42)"
+    S.hPutStrLn writeIn "print(42)"
+
+    putStrLn "sending print(42)"
+    S.hPutStrLn writeIn "print(42)"
+
     putStrLn "sending quit()"
     S.hPutStrLn writeIn "quit()"
 
