@@ -6,15 +6,14 @@ main = do
     hSetBuffering stdout NoBuffering
     (readIn, writeIn) <- createPipe
     (readOut, writeOut) <- createPipe
-    (_,_,_,proch) <- createProcess (proc "ghci" []) {
+    (_,_,_,proch) <- createProcess (proc "python" []) {
             std_in = UseHandle readIn,
             std_out = UseHandle writeOut,
             std_err = UseHandle writeOut,
             create_group = True
         }
-    hPutStrLn writeIn ":set prompt \"\""
-    hPutStrLn writeIn "print 42"
-    hPutStrLn writeIn ":quit"
+    hPutStrLn writeIn "print(42)"
+    hPutStrLn writeIn "quit()"
     hClose writeIn
     exit <- waitForProcess proch
     hPutStrLn stderr =<< hGetContents readOut
