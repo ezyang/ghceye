@@ -9,8 +9,7 @@ main = do
     (_,_,_,proch) <- createProcess (proc "python" ["-i"]) {
             std_in = UseHandle readIn,
             std_out = UseHandle writeOut,
-            std_err = UseHandle writeOut,
-            create_group = True
+            std_err = UseHandle writeOut
         }
     hPutStrLn writeIn "print(42)"
     hPutStrLn writeIn "quit()"
