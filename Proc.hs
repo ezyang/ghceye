@@ -13,12 +13,13 @@ main = do
     (readOut, writeOut) <- createPipe
 
     putStrLn "calling createProcess"
-    (Just writeIn,_,_,proch) <- createProcess (proc "python" ["-i"]) {
+    (Just writeIn,_,_,proch) <- createProcess (proc "ghci" []) {
             std_in = CreatePipe,
             std_out = UseHandle writeOut,
             std_err = UseHandle writeOut,
             close_fds = True
         }
+    hSetBuffering writeIn NoBuffering
 
     putStrLn "forking thread to interactively dump Python output"
     baton <- newEmptyMVar
@@ -30,20 +31,17 @@ main = do
     putStrLn "closing writeOut"
     hClose writeOut
 
-    putStrLn "sending print(42)"
-    S.hPutStrLn writeIn "print(42)"
+    putStrLn "sending print 42"
+    hPutStrLn writeIn "print 42"
 
-    putStrLn "sending print(42)"
-    S.hPutStrLn writeIn "print(42)"
+    putStrLn "sending print 42"
+    hPutStrLn writeIn "print 42"
 
-    putStrLn "sending print(42)"
-    S.hPutStrLn writeIn "print(42)"
+    putStrLn "sending print 42"
+    hPutStrLn writeIn "print 42"
 
-    putStrLn "sending print(42)"
-    S.hPutStrLn writeIn "print(42)"
-
-    putStrLn "sending quit()"
-    S.hPutStrLn writeIn "quit()"
+    putStrLn "sending :quit"
+    hPutStrLn writeIn ":quit"
 
     putStrLn "closing writeInt"
     hClose writeIn
