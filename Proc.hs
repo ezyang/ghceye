@@ -8,8 +8,10 @@ main = do
     (Just writeIn,_,_,proch) <- createProcess (proc "python" ["-i"]) {
             std_in = CreatePipe,
             std_out = UseHandle writeOut,
-            std_err = UseHandle writeOut
+            std_err = UseHandle writeOut,
+            close_fds = True
         }
+    hClose writeOut
     hPutStrLn writeIn "print(42)"
     hPutStrLn writeIn "quit()"
     hClose writeIn
