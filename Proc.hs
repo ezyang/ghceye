@@ -1,6 +1,9 @@
+{-# LANGUAGE OverloadedStrings #-}
 import System.Process
 import System.IO
 import System.Exit
+import qualified Data.ByteString.Char8 as S
+import System.Timeout
 main = do
     hSetBuffering stderr NoBuffering
     hSetBuffering stdout NoBuffering
@@ -12,10 +15,14 @@ main = do
             close_fds = True
         }
     hClose writeOut
-    hPutStrLn writeIn "print(42)"
-    hPutStrLn writeIn "quit()"
+    S.hPutStrLn writeIn "print(42)"
+    S.hPutStrLn writeIn "quit()"
     hClose writeIn
     exit <- waitForProcess proch
-    hPutStrLn stderr =<< hGetContents readOut
+    mres <- timeout
+        (1000 * 1000 * 10) -- 10 seconds
+        (S.hPutStrLn stderr =<< S.hGetContents readOut)
     hClose readOut
-    exitWith exit
+    case mres of
+        Nothing -> error "Did not complete"
+        Just () -> exitWith exit
