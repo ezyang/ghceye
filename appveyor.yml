@@ -1,13 +1,9 @@
-#   install:
-#     - choco install -y ghc -version 7.10.2
-#     - refreshenv
+install:
+  - choco install -y ghc -version 8.0.2
+  - refreshenv
 #   build_script:
 #     - ghc --make -threaded Proc.hs
 #     - Proc
-install:
-  - choco install -y msys2
-  - refreshenv
-  - pacman --noconfirm -S gcc
 build_script:
-  - gcc -c foo.c -o a.exe
+  - ghc -no-hs-main foo.c -o a.exe
   - a.exe
