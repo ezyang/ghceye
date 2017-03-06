@@ -1,9 +1,9 @@
 install:
   - choco install -y ghc -version 8.0.2
   - refreshenv
-build_script:
-  - ghc --make -threaded Proc.hs
-  - Proc
 #   build_script:
-#     - ghc -no-hs-main foo.c -o a.exe
-#     - a.exe
+#     - ghc --make -threaded Proc.hs
+#     - Proc
+build_script:
+  - ghc -no-hs-main foo.c -o a.exe
+  - a.exe

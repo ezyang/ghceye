@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <errno.h>
 int main() {
     char msg[20000];
     char *p = msg;
@@ -16,5 +18,16 @@ int main() {
     *(p++) = 'b';
     *(p++) = '\n';
     *(p++) = '\0';
-    fwrite(msg, sizeof(char), strlen(msg), stderr);
+    // fwrite(msg, sizeof(char), strlen(msg), stderr);
+    p = msg;
+    while (*p != '\0') {
+        do {
+            int err = write(2, p, 1);
+            if (err != 0) {
+                if (errno == EAGAIN || errno == EWOULDBLOCK) continue;
+            }
+            break;
+        } while ( 1 );
+        p++;
+    }
 }
