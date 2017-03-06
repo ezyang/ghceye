@@ -1,5 +1,5 @@
 install:
-  - choco install -y ghc --version 8.0.1 > NUL
+  - choco install -y ghc --version 8.0.1
   - refreshenv
 build_script:
   - ghc --make -threaded Proc.hs
