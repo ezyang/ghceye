@@ -92,6 +92,6 @@ hPutcBuffered handle_@Handle__{..} c = do
                 _             -> False
 
     putc buf@Buffer{ bufRaw=raw, bufR=w } c = do
-       debug ("putc: " ++ summaryBuffer buf)
+       -- debug ("putc: " ++ summaryBuffer buf)
        w'  <- writeCharBuf raw w c
        return buf{ bufR = w' }
