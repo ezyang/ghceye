@@ -4,6 +4,9 @@
 #   build_script:
 #     - ghc --make -threaded Proc.hs
 #     - Proc
+install:
+  - choco install -y msys2
+  - refreshenv
 build_script:
   - gcc -c foo.c -o a.exe
   - a.exe
