@@ -9,10 +9,10 @@ import Foreign.C.String
 
 main = do
     let str = concat (replicate 130 (replicate 100 'a' ++ "\n")) ++ "bbbbb\n"
-    withCStringLen str $ \(cstr, l) ->
-        hPutBuf stderr cstr l
+    --  withCStringLen str $ \(cstr, l) ->
+    --      hPutBuf stderr cstr l
     -- BUGGY
-    -- hPutStr stderr str
+    hPutStr stderr str
     hPutStrLn stderr "THAT IS ALL FOLKS"
 
 {-
