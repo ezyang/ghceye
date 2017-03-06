@@ -5,10 +5,15 @@ import System.IO
 import System.Exit
 import qualified Data.ByteString.Char8 as S
 import System.Timeout
+import Foreign.C.String
 
 main = do
-    hPutStr stderr (concat (replicate 130 (replicate 100 'a' ++ "\n")) ++ "bbbbb\n")
-    hPutStr stderr "THAT IS ALL FOLKS"
+    let str = concat (replicate 130 (replicate 100 'a' ++ "\n")) ++ "bbbbb\n"
+    withCStringLen str $ \(cstr, l) ->
+        hPutBuf stderr cstr l
+    -- BUGGY
+    -- hPutStr stderr str
+    hPutStrLn stderr "THAT IS ALL FOLKS"
 
 {-
 main = do
