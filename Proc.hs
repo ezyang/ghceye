@@ -12,8 +12,9 @@ main = do
     --  withCStringLen str $ \(cstr, l) ->
     --      hPutBuf stderr cstr l
     -- BUGGY
-    hSetBuffering stderr NoBuffering
+    -- hSetBuffering stderr NoBuffering
     -- hSetNewlineMode stderr noNewlineTranslation
+    hSetBinaryMode stderr True
     hPutStr stderr str
     hPutStrLn stderr "THAT IS ALL FOLKS"
 
