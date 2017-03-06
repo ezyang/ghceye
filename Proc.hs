@@ -6,7 +6,7 @@ import System.Exit
 import qualified Data.ByteString.Char8 as S
 import System.Timeout
 
-main =
+main = do
     hPutStr stderr (concat (replicate 130 (replicate 100 'a' ++ "\n")) ++ "bbbbb\n")
     hPutStr stderr "OK all done"
 
