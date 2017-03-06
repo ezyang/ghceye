@@ -8,6 +8,7 @@ import System.Timeout
 
 main =
     hPutStr stderr (concat (replicate 130 (replicate 100 'a' ++ "\n")) ++ "bbbbb\n")
+    hPutStr stderr "OK all done"
 
 {-
 main = do
